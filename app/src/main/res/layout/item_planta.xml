@@ -41,14 +41,6 @@
                 android:textColor="#E8F5E2"
                 android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/tvAmbiente"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ambiente"
-                android:textColor="#7FB98A"
-                android:textSize="12sp"
-                android:layout_marginTop="2dp" />
         </LinearLayout>
 
         <!-- Seta -->

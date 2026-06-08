@@ -79,9 +79,8 @@ class AdicionarPlantaActivity : AppCompatActivity() {
     private fun salvarPlanta() {
         val nome = binding.edtNome.text.toString().trim()
         val especie = binding.edtEspecie.text.toString().trim()
-        val ambiente = binding.edtAmbiente.text.toString().trim()
 
-        if (nome.isEmpty() || especie.isEmpty() || ambiente.isEmpty()) {
+        if (nome.isEmpty() || especie.isEmpty()) {
             Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
             return
         }
@@ -90,7 +89,6 @@ class AdicionarPlantaActivity : AppCompatActivity() {
         val planta = Planta(
             nome = nome,
             especie = especie,
-            ambiente = ambiente,
             fotoUrl = fotoBase64 ?: ""
         )
 

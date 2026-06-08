@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.luizmateus.zenit.databinding.ItemPlantaBinding
+import com.luizmateus.zenit.utils.Base64Converter
 import com.luizmateus.zenit.model.Planta
 
 class PlantaAdapter(
@@ -24,7 +25,15 @@ class PlantaAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val planta = lista[position]
         holder.binding.tvNomePlanta.text = planta.nome
-        holder.binding.tvAmbiente.text = planta.ambiente
+
+        // converte base64 para bitmap e exibe
+        if (planta.fotoUrl.isNotEmpty()) {
+            runCatching {
+                val bitmap = Base64Converter.stringToBitmap(planta.fotoUrl)
+                holder.binding.imgPlanta.setImageBitmap(bitmap)
+            }
+        }
+
         holder.binding.root.setOnClickListener { onClick(planta) }
     }
 
