@@ -30,4 +30,13 @@ class PlantaDAO {
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
+
+    // exclui uma planta pelo id
+    fun excluirPlanta(plantaId: String, callback: (Boolean) -> Unit) {
+        db.collection("usuarios").document(uid)
+            .collection("plantas").document(plantaId)
+            .delete()
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
+    }
 }

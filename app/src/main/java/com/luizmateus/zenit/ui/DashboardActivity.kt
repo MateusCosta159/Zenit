@@ -63,6 +63,9 @@ class DashboardActivity : AppCompatActivity() {
                 binding.rvPlantas.adapter = PlantaAdapter(plantas) { planta ->
                     val intent = Intent(this, DetalhesPlantaActivity::class.java)
                     intent.putExtra("plantaId", planta.id)
+                    intent.putExtra("nome", planta.nome)
+                    intent.putExtra("especie", planta.especie)
+                    intent.putExtra("fotoUrl", planta.fotoUrl)
                     startActivity(intent)
                 }
             }

@@ -1,10 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0D1F1A"
     tools:context=".ui.DetalhesPlantaActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Foto grande com header sobreposto -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+
+            <ImageView
+                android:id="@+id/imgDetalhes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:contentDescription="Foto da planta" />
+
+            <!-- Gradiente escuro no topo pra legibilidade do botão voltar -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/bg_gradient_top" />
+
+            <!-- Botão voltar -->
+            <ImageButton
+                android:id="@+id/btnVoltar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                android:src="@android:drawable/ic_media_previous"
+                android:background="@drawable/bg_sensor_card"
+                android:contentDescription="Voltar" />
+        </FrameLayout>
+
+        <!-- Conteúdo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Nome -->
+            <TextView
+                android:id="@+id/tvNomeDetalhes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome da planta"
+                android:textColor="#E8F5E2"
+                android:textSize="28sp"
+                android:fontFamily="serif"
+                android:layout_marginBottom="6dp" />
+
+            <!-- Espécie -->
+            <TextView
+                android:id="@+id/tvEspecieDetalhes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Espécie"
+                android:textColor="#7FB98A"
+                android:textSize="15sp"
+                android:layout_marginBottom="40dp" />
+
+            <!-- Card info -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_sensor_card"
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌿"
+                    android:textSize="24sp"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Meu Jardim"
+                    android:textColor="#7FB98A"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Botão excluir -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExcluir"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Excluir planta"
+                android:textColor="#E8F5E2"
+                android:textSize="15sp"
+                app:backgroundTint="@android:color/transparent"
+                app:strokeColor="#3D5C45"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="12dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
