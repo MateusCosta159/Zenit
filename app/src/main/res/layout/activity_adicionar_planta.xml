@@ -1,10 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0D1F1A"
     tools:context=".ui.AdicionarPlantaActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="32dp">
+
+            <ImageButton
+                android:id="@+id/btnVoltar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_media_previous"
+                android:background="@drawable/bg_sensor_card"
+                android:contentDescription="Voltar" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Nova Planta"
+                android:textColor="#E8F5E2"
+                android:textSize="22sp"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:layout_marginEnd="40dp" />
+        </LinearLayout>
+
+        <!-- Foto da planta -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="32dp">
+
+            <ImageView
+                android:id="@+id/imgFotoPlanta"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_foto_planta"
+                android:src="@android:drawable/ic_menu_camera"
+                android:contentDescription="Foto da planta" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSelecionarFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Selecionar foto"
+                android:textColor="#7FB98A"
+                android:textSize="13sp"
+                app:backgroundTint="@android:color/transparent"
+                app:strokeColor="#7FB98A"
+                app:strokeWidth="1dp"
+                app:cornerRadius="10dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="12dp" />
+        </LinearLayout>
+
+        <!-- Campo Nome -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilNome"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nome da planta"
+            app:boxStrokeColor="#3D5C45"
+            app:hintTextColor="#7FB98A"
+            app:boxBackgroundColor="#122318"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#E8F5E2"
+                android:inputType="textCapSentences" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo Espécie -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEspecie"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Espécie (ex: Costela-de-adão)"
+            app:boxStrokeColor="#3D5C45"
+            app:hintTextColor="#7FB98A"
+            app:boxBackgroundColor="#122318"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEspecie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#E8F5E2"
+                android:inputType="textCapSentences" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo Ambiente -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAmbiente"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ambiente (ex: Varanda, Sala)"
+            app:boxStrokeColor="#3D5C45"
+            app:hintTextColor="#7FB98A"
+            app:boxBackgroundColor="#122318"
+            android:layout_marginBottom="32dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtAmbiente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#E8F5E2"
+                android:inputType="textCapSentences" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botão Salvar -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSalvar"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Salvar planta"
+            android:textColor="#0D1F1A"
+            android:textSize="15sp"
+            app:backgroundTint="#7FB98A"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
