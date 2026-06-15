@@ -30,25 +30,30 @@ class DashboardActivity : AppCompatActivity() {
             insets
         }
 
-        // saudacao com email do usuario
+        // Saudação com email do usuário
         val email = userAuth.getEmailUsuarioLogado() ?: "usuário"
         binding.tvSaudacao.text = "Olá, ${email.substringBefore("@")}"
 
-        // configura recycler
+        // Configura RecyclerView
         binding.rvPlantas.layoutManager = LinearLayoutManager(this)
 
-        // carrega plantas do firestore
+        // Carrega plantas do Firestore
         carregarPlantas()
 
-        // navega para adicionar planta
+        // Navega para adicionar planta
         binding.btnAdicionarPlanta.setOnClickListener {
             startActivity(Intent(this, AdicionarPlantaActivity::class.java))
+        }
+
+        // Navega para a bússola solar
+        binding.btnBussola.setOnClickListener {
+            startActivity(Intent(this, BussolaActivity::class.java))
         }
     }
 
     override fun onResume() {
         super.onResume()
-        // recarrega ao voltar da tela de adicionar
+        // Recarrega ao voltar de outra tela
         carregarPlantas()
     }
 

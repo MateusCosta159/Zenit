@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D1B0F">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0D1B0F"
+        android:elevation="0dp"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Bússola Solar"
+        app:titleTextColor="#A8D5A2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Grau numérico -->
+    <TextView
+        android:id="@+id/tvGraus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0°"
+        android:textSize="52sp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-light"
+        android:letterSpacing="0.05"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
+
+    <!-- Direção cardinal -->
+    <TextView
+        android:id="@+id/tvDirecao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Norte"
+        android:textSize="18sp"
+        android:textColor="#A8D5A2"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.12"
+        android:textAllCaps="true"
+        app:layout_constraintTop_toBottomOf="@id/tvGraus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"/>
+
+    <!-- Container da bússola -->
+    <FrameLayout
+        android:id="@+id/frameBussola"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        app:layout_constraintTop_toBottomOf="@id/tvDirecao"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="28dp">
+
+        <!-- Rosa dos ventos (fundo estático) -->
+        <ImageView
+            android:id="@+id/ivRosaVentos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_compass_rose"
+            android:contentDescription="Rosa dos ventos" />
+
+        <!-- Agulha (rotaciona) -->
+        <ImageView
+            android:id="@+id/ivAgulha"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_compass_needle"
+            android:contentDescription="Agulha da bússola" />
+
+    </FrameLayout>
+
+    <!-- Card de dica solar -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDica"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="#1A2E1C"
+        app:cardElevation="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintTop_toBottomOf="@id/frameBussola"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvIconeDica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌿"
+                android:textSize="28sp"
+                android:layout_marginEnd="12dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTituloDica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Orientação para plantas"
+                    android:textSize="12sp"
+                    android:textColor="#A8D5A2"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.1"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <TextView
+                    android:id="@+id/tvDicaSolar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aponte para o Norte para localizar a face de maior incidência solar."
+                    android:textSize="14sp"
+                    android:textColor="#D4EDD1"
+                    android:layout_marginTop="2dp"
+                    android:lineSpacingMultiplier="1.4"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Status de calibração -->
+    <TextView
+        android:id="@+id/tvCalibration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="⬤  Calibrando sensor..."
+        android:textSize="12sp"
+        android:textColor="#8B9E8D"
+        android:fontFamily="sans-serif"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

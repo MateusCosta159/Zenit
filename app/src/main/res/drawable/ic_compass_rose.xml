@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    ic_compass_rose.xml
+    Rosa dos ventos estática: anel externo com marcações N/S/L/O e graus a cada 45°.
+    O fundo é transparente; a agulha (ic_compass_needle) sobrepõe este drawable.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="280dp"
+    android:height="280dp"
+    android:viewportWidth="280"
+    android:viewportHeight="280">
+
+    <!-- Anel externo -->
+    <path
+        android:strokeColor="#2E4D30"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:pathData="M140,140 m-120,0 a120,120 0 1,0 240,0 a120,120 0 1,0 -240,0"/>
+
+    <!-- Anel interno (guia) -->
+    <path
+        android:strokeColor="#1A2E1C"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:pathData="M140,140 m-90,0 a90,90 0 1,0 180,0 a90,90 0 1,0 -180,0"/>
+
+    <!-- Marcação N (Norte) -->
+    <path
+        android:strokeColor="#A8D5A2"
+        android:strokeWidth="3"
+        android:pathData="M140,28 L140,18"/>
+    <!-- Marcação S (Sul) -->
+    <path
+        android:strokeColor="#A8D5A2"
+        android:strokeWidth="3"
+        android:pathData="M140,252 L140,262"/>
+    <!-- Marcação L (Leste) -->
+    <path
+        android:strokeColor="#A8D5A2"
+        android:strokeWidth="3"
+        android:pathData="M252,140 L262,140"/>
+    <!-- Marcação O (Oeste) -->
+    <path
+        android:strokeColor="#A8D5A2"
+        android:strokeWidth="3"
+        android:pathData="M28,140 L18,140"/>
+
+    <!-- Marcações intermediárias (NE, SE, SO, NO) — traços menores -->
+    <!-- NE -->
+    <path
+        android:strokeColor="#4A6B4C"
+        android:strokeWidth="2"
+        android:pathData="M225.1,54.9 L231.8,48.2"/>
+    <!-- SE -->
+    <path
+        android:strokeColor="#4A6B4C"
+        android:strokeWidth="2"
+        android:pathData="M225.1,225.1 L231.8,231.8"/>
+    <!-- SO -->
+    <path
+        android:strokeColor="#4A6B4C"
+        android:strokeWidth="2"
+        android:pathData="M54.9,225.1 L48.2,231.8"/>
+    <!-- NO -->
+    <path
+        android:strokeColor="#4A6B4C"
+        android:strokeWidth="2"
+        android:pathData="M54.9,54.9 L48.2,48.2"/>
+
+    <!-- Círculo central decorativo (anel do pivot) -->
+    <path
+        android:strokeColor="#2E4D30"
+        android:strokeWidth="1.5"
+        android:fillColor="#0D1B0F"
+        android:pathData="M140,140 m-18,0 a18,18 0 1,0 36,0 a18,18 0 1,0 -36,0"/>
+
+</vector>

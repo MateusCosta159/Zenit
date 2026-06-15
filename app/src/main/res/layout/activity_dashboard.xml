@@ -48,6 +48,18 @@
                         android:fontFamily="serif" />
                 </LinearLayout>
 
+                <!-- Botão Bússola -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBussola"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="🧭"
+                    android:textColor="#0D1F1A"
+                    android:textSize="16sp"
+                    app:backgroundTint="#7FB98A"
+                    app:cornerRadius="10dp" />
+
                 <!-- Botão Adicionar Planta -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAdicionarPlanta"
@@ -183,6 +195,7 @@
                 android:nestedScrollingEnabled="false" />
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
