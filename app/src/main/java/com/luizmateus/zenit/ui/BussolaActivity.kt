@@ -11,7 +11,10 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.luizmateus.zenit.R
 import kotlin.math.roundToInt
 
@@ -45,7 +48,15 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_bussola)
+
+        val rootView = (findViewById<android.view.ViewGroup>(android.R.id.content)).getChildAt(0)
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         bindViews()
         setupClickListeners()
@@ -79,7 +90,7 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
         tvDicaSolar      = findViewById(R.id.tvDicaSolar)
         tvIconeDica      = findViewById(R.id.tvIconeDica)
         tvCalibration    = findViewById(R.id.tvCalibration)
-        btnVoltarBussola = findViewById(R.id.btnVoltarBussola) // ID atualizado do novo XML
+        btnVoltarBussola = findViewById(R.id.btnVoltarBussola)
     }
 
     private fun setupClickListeners() {
@@ -97,7 +108,6 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
     // ── SensorEventListener ───────────────────────────────────────────────────
 
     override fun onSensorChanged(event: SensorEvent) {
-        // Filtro passa-baixas para suavizar leituras
         val alpha = 0.15f
 
         when (event.sensor.type) {
@@ -128,7 +138,6 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
         val orientation = FloatArray(3)
         SensorManager.getOrientation(rotationMatrix, orientation)
 
-        // Azimute em graus (0° = Norte, 90° = Leste, 180° = Sul, 270° = Oeste)
         azimuleAtual = Math.toDegrees(orientation[0].toDouble()).toFloat()
         azimuleAtual = (azimuleAtual + 360) % 360
 
@@ -148,16 +157,13 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
     // ── UI ────────────────────────────────────────────────────────────────────
 
     private fun atualizarUI(azimute: Float) {
-        // Texto do ângulo
         tvGraus.text = "${azimute.roundToInt()}°"
 
-        // Direção cardinal e dica solar corrigida
         val (direcao, emoji, dica) = calcularDirecaoEDica(azimute)
         tvDirecao.text  = direcao
         tvIconeDica.text = emoji
         tvDicaSolar.text = dica
 
-        // Animação suave da agulha
         val rotacaoAlvo = -azimute
         val  rotacaoAnterior = -azimuleAnterior
 
@@ -176,10 +182,6 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
         azimuleAnterior = azimute
     }
 
-    /**
-     * Retorna Triple<direcaoCardinal, emoji, dicaSolar> com base no azimute.
-     * Corrigido para a realidade geográfica do Hemisfério Sul (Brasil).
-     */
     private fun calcularDirecaoEDica(azimute: Float): Triple<String, String, String> {
         return when {
             azimute < 22.5 || azimute >= 337.5 -> Triple(
