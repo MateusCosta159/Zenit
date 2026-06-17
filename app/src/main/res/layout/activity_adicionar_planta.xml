@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:hint="Nome da planta"
             app:boxStrokeColor="#3D5C45"
-            app:hintTextColor="#7FB98A"
+            android:textColorHint="#7FB98A" app:hintTextColor="#7FB98A"
             app:boxBackgroundColor="#122318"
             android:layout_marginBottom="16dp">
 
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:hint="Espécie (ex: Costela-de-adão)"
             app:boxStrokeColor="#3D5C45"
-            app:hintTextColor="#7FB98A"
+            android:textColorHint="#7FB98A" app:hintTextColor="#7FB98A"
             app:boxBackgroundColor="#122318"
             android:layout_marginBottom="16dp">
 
