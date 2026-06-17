@@ -8,10 +8,10 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.luizmateus.zenit.R
 import kotlin.math.roundToInt
 
@@ -39,6 +39,7 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var tvDicaSolar: TextView
     private lateinit var tvIconeDica: TextView
     private lateinit var tvCalibration: TextView
+    private lateinit var btnVoltarBussola: ImageButton
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -46,8 +47,8 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bussola)
 
-        setupToolbar()
         bindViews()
+        setupClickListeners()
         setupSensors()
     }
 
@@ -71,20 +72,20 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
 
     // ── Setup ─────────────────────────────────────────────────────────────────
 
-    private fun setupToolbar() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        toolbar.setNavigationOnClickListener { finish() }
+    private fun bindViews() {
+        ivAgulha         = findViewById(R.id.ivAgulha)
+        tvGraus          = findViewById(R.id.tvGraus)
+        tvDirecao        = findViewById(R.id.tvDirecao)
+        tvDicaSolar      = findViewById(R.id.tvDicaSolar)
+        tvIconeDica      = findViewById(R.id.tvIconeDica)
+        tvCalibration    = findViewById(R.id.tvCalibration)
+        btnVoltarBussola = findViewById(R.id.btnVoltarBussola) // ID atualizado do novo XML
     }
 
-    private fun bindViews() {
-        ivAgulha     = findViewById(R.id.ivAgulha)
-        tvGraus      = findViewById(R.id.tvGraus)
-        tvDirecao    = findViewById(R.id.tvDirecao)
-        tvDicaSolar  = findViewById(R.id.tvDicaSolar)
-        tvIconeDica  = findViewById(R.id.tvIconeDica)
-        tvCalibration = findViewById(R.id.tvCalibration)
+    private fun setupClickListeners() {
+        btnVoltarBussola.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setupSensors() {
@@ -96,7 +97,7 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
     // ── SensorEventListener ───────────────────────────────────────────────────
 
     override fun onSensorChanged(event: SensorEvent) {
-        // Filtro de baixo-passa para suavizar leituras
+        // Filtro passa-baixas para suavizar leituras
         val alpha = 0.15f
 
         when (event.sensor.type) {
@@ -150,16 +151,15 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
         // Texto do ângulo
         tvGraus.text = "${azimute.roundToInt()}°"
 
-        // Direção cardinal e dica solar
+        // Direção cardinal e dica solar corrigida
         val (direcao, emoji, dica) = calcularDirecaoEDica(azimute)
         tvDirecao.text  = direcao
         tvIconeDica.text = emoji
         tvDicaSolar.text = dica
 
         // Animação suave da agulha
-        // A agulha aponta para o Norte real, então rotaciona no sentido oposto ao azimute
         val rotacaoAlvo = -azimute
-        val rotacaoAnterior = -azimuleAnterior
+        val  rotacaoAnterior = -azimuleAnterior
 
         val anim = RotateAnimation(
             rotacaoAnterior,
@@ -178,49 +178,49 @@ class BussolaActivity : AppCompatActivity(), SensorEventListener {
 
     /**
      * Retorna Triple<direcaoCardinal, emoji, dicaSolar> com base no azimute.
-     * Voltado para jardinagem urbana — contexto do Zenit.
+     * Corrigido para a realidade geográfica do Hemisfério Sul (Brasil).
      */
     private fun calcularDirecaoEDica(azimute: Float): Triple<String, String, String> {
         return when {
             azimute < 22.5 || azimute >= 337.5 -> Triple(
                 "Norte",
-                "🌿",
-                "Face Norte: ideal para plantas que preferem sombra parcial ou luz indireta, como samambaias e lírios-da-paz."
+                "🔆",
+                "Face Norte: Maior incidência solar o ano todo. Ideal para plantas de pleno sol, como cactos, suculentas e frutíferas."
             )
             azimute < 67.5 -> Triple(
                 "Nordeste",
-                "🌤",
-                "Face Nordeste: sol da manhã com tarde amena. Ótimo para ervas aromáticas como manjericão e hortelã."
+                "🌻",
+                "Face Nordeste: Excelente sol da manhã e ótima luminosidade. Muito boa para a maioria das plantas de horta."
             )
             azimute < 112.5 -> Triple(
                 "Leste",
                 "☀️",
-                "Face Leste: sol matinal suave. Excelente para begônias, violetas e plantas floríferas de interior."
+                "Face Leste: Sol matinal suave e ameno. Perfeito para begônias, samambaias, violetas e orquídeas."
             )
             azimute < 157.5 -> Triple(
                 "Sudeste",
-                "🌻",
-                "Face Sudeste: boa luminosidade durante a manhã. Adequado para cactos e suculentas em climas tropicais."
+                "🌤",
+                "Face Sudeste: Recebe luz clara pela manhã. Adequado para plantas de meia-sombra que evitam o calor forte."
             )
             azimute < 202.5 -> Triple(
                 "Sul",
-                "🔆",
-                "Face Sul (Hemisfério Sul): maior incidência solar durante o dia. Ideal para plantas que exigem pleno sol."
+                "🌿",
+                "Face Sul: Menor incidência de sol direto. Ideal para plantas que preferem sombra ou luz indireta, como Lírio-da-paz."
             )
             azimute < 247.5 -> Triple(
                 "Sudoeste",
-                "🌵",
-                "Face Sudoeste: sol da tarde intenso. Adequado para cactos, aloe vera e plantas resistentes ao calor."
+                "🍃",
+                "Face Sudoeste: Luz indireta pela manhã e sol mais forte no fim do dia. Boa para plantas resistentes."
             )
             azimute < 292.5 -> Triple(
                 "Oeste",
-                "🍃",
-                "Face Oeste: sol vespertino forte. Prefira plantas adaptadas ao calor, como bougainvilleas e lantanas."
+                "🌵",
+                "Face Oeste: Recebe o sol forte e intenso da tarde. Prefira plantas que toleram calor extremo, como Bougainvillea."
             )
             else -> Triple(
                 "Noroeste",
                 "🌱",
-                "Face Noroeste: luz moderada à tarde. Boa opção para roseiras e plantas que toleram sol parcial."
+                "Face Noroeste: Muito iluminada no período da tarde. Boa opção para roseiras e arbustos que gostam de calor."
             )
         }
     }
