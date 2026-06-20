@@ -18,6 +18,7 @@ import com.luizmateus.zenit.adapter.PlantaAdapter
 import com.luizmateus.zenit.auth.UserAuth
 import com.luizmateus.zenit.dao.PlantaDAO
 import com.luizmateus.zenit.databinding.ActivityDashboardBinding
+import com.luizmateus.zenit.utils.NotificacaoHelper
 
 class DashboardActivity : AppCompatActivity(), SensorEventListener {
 
@@ -47,6 +48,9 @@ class DashboardActivity : AppCompatActivity(), SensorEventListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Canal de notificação (obrigatório Android 8+)
+        NotificacaoHelper.criarCanal(this)
 
         // Sensores
         sensorManager     = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -125,7 +129,9 @@ class DashboardActivity : AppCompatActivity(), SensorEventListener {
         luz?.let  { binding.tvLuminosidade.text = "${it.toInt()} lx" }
         temp?.let { binding.tvTemperatura.text  = "${it.toInt()}°C"  }
 
-        Toast.makeText(this, "Ambiente calibrado com sucesso!", Toast.LENGTH_SHORT).show()
+        // RF03 — som de confirmação + notificação
+        NotificacaoHelper.tocarSomConfirmacao()
+        NotificacaoHelper.notificarAmbiente(this, temp, luz ?: 0f)
     }
 
     private fun pararSensores() {
