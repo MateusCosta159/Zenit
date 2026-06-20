@@ -48,17 +48,21 @@
                         android:fontFamily="serif" />
                 </LinearLayout>
 
-                <!-- Botão Bússola -->
-                <com.google.android.material.button.MaterialButton
+
+                <!-- Botão Bússola - usando bg_sensor_card como fundo -->
+                <!-- Botão Bússola - mesma cor do + Planta -->
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnBussola"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
                     android:text="🧭"
+                    android:textSize="20sp"
                     android:textColor="#0D1F1A"
-                    android:textSize="16sp"
-                    app:backgroundTint="#7FB98A"
-                    app:cornerRadius="10dp" />
+                    android:backgroundTint="#7FB98A"
+                    android:background="@drawable/bg_button_green"
+                    android:gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Abrir Bússola Solar" />
 
                 <!-- Botão Adicionar Planta -->
                 <com.google.android.material.button.MaterialButton
@@ -77,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="28dp">
+                android:layout_marginBottom="12dp">
 
                 <!-- Card Temperatura -->
                 <LinearLayout
@@ -152,6 +156,21 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <!-- Botão Calibrar Ambiente (RF01 + RF03) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCalibrar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="28dp"
+                android:text="Calibrar Ambiente"
+                android:textColor="#0D1F1A"
+                android:textSize="14sp"
+                app:backgroundTint="#7FB98A"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_compass"
+                app:iconTint="#0D1F1A"
+                app:iconGravity="textStart" />
+
             <!-- Título da lista -->
             <TextView
                 android:layout_width="wrap_content"
@@ -195,7 +214,6 @@
                 android:nestedScrollingEnabled="false" />
 
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
