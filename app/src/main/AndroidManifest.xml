@@ -2,10 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Sensor de bússola: required=false para não bloquear instalação em dispositivos sem o sensor -->
-    <uses-feature
-        android:name="android.hardware.sensor.compass"
-        android:required="false" />
+    <!-- Notificações locais (obrigatório no Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Sensores declarados como opcionais (não bloqueiam instalação) -->
+    <uses-feature android:name="android.hardware.sensor.compass"     android:required="false" />
+    <uses-feature android:name="android.hardware.sensor.light"       android:required="false" />
+    <uses-feature android:name="android.hardware.sensor.ambient_temperature" android:required="false" />
 
     <application
         android:allowBackup="true"
