@@ -18,6 +18,7 @@ import com.luizmateus.zenit.adapter.PlantaAdapter
 import com.luizmateus.zenit.auth.UserAuth
 import com.luizmateus.zenit.dao.PlantaDAO
 import com.luizmateus.zenit.databinding.ActivityDashboardBinding
+import com.luizmateus.zenit.model.Planta
 import com.luizmateus.zenit.utils.NotificacaoHelper
 
 class DashboardActivity : AppCompatActivity(), SensorEventListener {
@@ -49,34 +50,31 @@ class DashboardActivity : AppCompatActivity(), SensorEventListener {
             insets
         }
 
-        // Canal de notificação (obrigatório Android 8+)
         NotificacaoHelper.criarCanal(this)
 
-        // Sensores
         sensorManager     = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensorLuz         = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
         sensorTemperatura = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
 
-        // Saudação
         val email = userAuth.getEmailUsuarioLogado() ?: "usuário"
         binding.tvSaudacao.text = "Olá, ${email.substringBefore("@")}"
 
-        // RecyclerView
         binding.rvPlantas.layoutManager = LinearLayoutManager(this)
 
         carregarPlantas()
 
-        // Navegação — Bússola
         binding.btnBussola.setOnClickListener {
             startActivity(Intent(this, BussolaActivity::class.java))
         }
 
-        // Navegação — Adicionar Planta
         binding.btnAdicionarPlanta.setOnClickListener {
             startActivity(Intent(this, AdicionarPlantaActivity::class.java))
         }
 
-        // Calibrar Ambiente
+        binding.btnConfiguracoes.setOnClickListener {
+            startActivity(Intent(this, ConfiguracoesActivity::class.java))
+        }
+
         binding.btnCalibrar.setOnClickListener {
             iniciarCalibracao()
         }
@@ -120,18 +118,19 @@ class DashboardActivity : AppCompatActivity(), SensorEventListener {
         val luz  = leituraLuz
         val temp = leituraTemperatura
 
+        // ── Dados mockados para demo quando sensor não está disponível ──
+        val luzFinal  = luz  ?: 3200f   // lux típico de ambiente interno bem iluminado
+        val tempFinal = temp ?: 24f     // temperatura ambiente confortável
+
+        binding.tvLuminosidade.text = "${luzFinal.toInt()} lx"
+        binding.tvTemperatura.text  = "${tempFinal.toInt()}°C"
+
         if (luz == null && temp == null) {
-            Toast.makeText(this, "Sensores não disponíveis neste dispositivo", Toast.LENGTH_LONG).show()
-            return
+            Toast.makeText(this, "Sensor indisponível — exibindo dados de exemplo", Toast.LENGTH_SHORT).show()
         }
 
-        // Atualiza os cards da UI
-        luz?.let  { binding.tvLuminosidade.text = "${it.toInt()} lx" }
-        temp?.let { binding.tvTemperatura.text  = "${it.toInt()}°C"  }
-
-        // RF03 — som de confirmação + notificação
         NotificacaoHelper.tocarSomConfirmacao()
-        NotificacaoHelper.notificarAmbiente(this, temp, luz ?: 0f)
+        NotificacaoHelper.notificarAmbiente(this, tempFinal, luzFinal)
     }
 
     private fun pararSensores() {
@@ -147,27 +146,60 @@ class DashboardActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) { /* não utilizado */ }
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
     // ── Plantas ───────────────────────────────────────────────────────────────
 
     private fun carregarPlantas() {
         plantaDAO.listarPlantas { plantas ->
-            if (plantas.isEmpty()) {
+            val listagem = plantas.ifEmpty { plantasMock() }
+
+            if (listagem === plantasMock() && plantas.isEmpty()) {
+                // Firestore vazio — exibe mocks com flag visual
+                binding.layoutVazio.visibility = View.GONE
+                binding.rvPlantas.visibility   = View.VISIBLE
+            } else if (plantas.isEmpty()) {
                 binding.layoutVazio.visibility = View.VISIBLE
                 binding.rvPlantas.visibility   = View.GONE
+                return@listarPlantas
             } else {
                 binding.layoutVazio.visibility = View.GONE
                 binding.rvPlantas.visibility   = View.VISIBLE
-                binding.rvPlantas.adapter = PlantaAdapter(plantas) { planta ->
-                    val intent = Intent(this, DetalhesPlantaActivity::class.java)
-                    intent.putExtra("plantaId", planta.id)
-                    intent.putExtra("nome",     planta.nome)
-                    intent.putExtra("especie",  planta.especie)
-                    intent.putExtra("fotoUrl",  planta.fotoUrl)
-                    startActivity(intent)
-                }
+            }
+
+            binding.rvPlantas.adapter = PlantaAdapter(listagem) { planta ->
+                val intent = Intent(this, DetalhesPlantaActivity::class.java)
+                intent.putExtra("plantaId", planta.id)
+                intent.putExtra("nome",     planta.nome)
+                intent.putExtra("especie",  planta.especie)
+                intent.putExtra("fotoUrl",  planta.fotoUrl)
+                startActivity(intent)
             }
         }
     }
+
+    /**
+     * Plantas de exemplo para demo e testes quando o Firestore está vazio.
+     * Remove ou substitua após popular o banco real.
+     */
+    private fun plantasMock(): List<Planta> = listOf(
+        Planta(
+            id      = "mock_1",
+            nome    = "Samambaia",
+            especie = "Nephrolepis exaltata",
+            fotoUrl = ""
+        ),
+        Planta(
+            id      = "mock_2",
+            nome    = "Espada-de-são-jorge",
+            especie = "Dracaena trifasciata",
+            fotoUrl = ""
+        ),
+        Planta(
+            id      = "mock_3",
+            nome    = "Lírio-da-paz",
+            especie = "Spathiphyllum wallisii",
+            fotoUrl = ""
+        )
+    )
 }
